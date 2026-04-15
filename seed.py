@@ -1,9 +1,8 @@
 import random
-from datetime import timedelta
 
 from faker import Faker
 
-from db import SessionLocal, engine, Base
+from db import SessionLocal
 from models import Group, Student, Teacher, Subject, Grade
 
 
@@ -11,12 +10,17 @@ fake = Faker()
 
 
 def seed_database():
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
-
     session = SessionLocal()
 
     try:
+        # очищення даних у правильному порядку
+        session.query(Grade).delete()
+        session.query(Student).delete()
+        session.query(Subject).delete()
+        session.query(Teacher).delete()
+        session.query(Group).delete()
+        session.commit()
+
         groups = [
             Group(name="Group A"),
             Group(name="Group B"),
@@ -25,9 +29,7 @@ def seed_database():
         session.add_all(groups)
         session.commit()
 
-        teachers = [
-            Teacher(full_name=fake.name()) for _ in range(4)
-        ]
+        teachers = [Teacher(full_name=fake.name()) for _ in range(4)]
         session.add_all(teachers)
         session.commit()
 

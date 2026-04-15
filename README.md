@@ -60,3 +60,17 @@ The database is filled with groups, teachers, subjects, students, and grades.
 Alembic dependency is included and project is prepared for migrations.
 
 Additional CLI CRUD functionality was not implemented because it is optional in the assignment and catastrophic lack of time.
+
+## Migrations
+
+Database schema is managed with Alembic migrations.
+
+Initialize database schema:
+
+```bash
+alembic upgrade head
+
+Seed data:
+
+python seed.py
+```
